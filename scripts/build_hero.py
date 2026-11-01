@@ -26,27 +26,29 @@ PALETTES = {
     "light": dict(bg="#F6F4EE", tile="#EFECE4", grid="#DDD9CE", ink="#151716", muted="#5B5F5C", faint="#D4D0C4", accent="#C2410C"),
 }
 
-CAPTION_L, CAPTION_R = "FULL-STACK PRODUCT ENGINEER", "SDE II · AWIROS · NEW DELHI"
+CAPTION_L, CAPTION_R = "FULL-STACK PRODUCT ENGINEER", "SDE II AT AWIROS · EX-FOUNDING ENGINEER"
 NAME = "Aryan Teng"
-ROLE = ("I build AI products end to end,", "from the UX to the on-prem deploy.")
+ROLE = ("I build products from zero to production,", "from Figma to the customer site.")
 STACK = "React · TypeScript · React Native · Node.js · Go · Kafka"
-# One line per area of work, product first; every figure is on the published resume.
+# Impact lines, one per product; every figure is on the published resume.
 TICKER = [
-    "UVIP · led the React 19 rebuild, product and UX",
-    "50 CV apps · a 3-hour Jenkins build became per-app images",
-    "Two React Native apps, built solo",
-    "Enterprise SSO · LDAP and OIDC, shipped to customers",
-    "Seek · search used at 33 Indian airports",
-    "ClickHouse pipeline · 20M+ events a day",
+    "Founding engineer at Enveave · 0-to-1 MVP with the founders",
+    "UVIP · React 19 rebuild, 31 modules, 300+ typed APIs",
+    "CV apps · per-app images, deploys 90%+ faster",
+    "Developer Mode · live-mounted source, alerts in real time",
+    "Seek · search at 33 Indian airports, 51 s → 4.7 s",
+    "Delhi IGI · 9,189 e-challans filed with Delhi Traffic Police",
+    "ClickHouse · 20M+ events a day",
 ]
-TILES = [  # (figure, label): one each for product, platform, search, data
-    ("300+", "typed APIs · UVIP"),
-    ("−90%", "deploy time, 50 apps"),
-    ("33", "airports use Seek"),
-    ("20M+", "events/day, ClickHouse"),
+# Things built and shipped at Awiros, product first.
+CHIPS = [
+    "UVIP platform rebuild", "CV app delivery",
+    "Developer Mode", "Seek vector search",
+    "Enterprise SSO", "IGI airport ops suite",
+    "Two mobile apps", "Event pipeline",
 ]
-STAGES = ["ux", "react", "api", "data", "deploy", "on-site"]
-TILE_X, TILE_Y, TILE_W, TILE_H, GAP = 572, 86, 184, 72, 12
+STAGES = ["idea", "figma", "react", "api", "data", "deploy", "on-site"]
+CHIP_X, CHIP_Y, CHIP_W, CHIP_H, GAP = 572, 110, 184, 30, 8
 STEP = 3  # seconds each ticker line stays up
 
 
@@ -65,15 +67,15 @@ def font_face(path: Path, family: str, weight: int, text: str) -> str:
 
 
 def body(p: dict) -> str:
-    tiles = []
-    for i, (fig, label) in enumerate(TILES):
-        x = TILE_X + (i % 2) * (TILE_W + GAP)
-        y = TILE_Y + (i // 2) * (TILE_H + GAP)
-        tiles.append(
-            f'<g class="tile" style="animation-delay:{0.15 + i * 0.12:.2f}s">'
-            f'<rect x="{x}" y="{y}" width="{TILE_W}" height="{TILE_H}" rx="10" fill="{p["tile"]}" stroke="{p["faint"]}"/>'
-            f'<text class="fig" x="{x + 16}" y="{y + 38}">{fig}</text>'
-            f'<text class="lab" x="{x + 16}" y="{y + 58}">{label}</text></g>'
+    chips = [f'<text class="cap" x="{CHIP_X}" y="{CHIP_Y - 14}">BUILT AND SHIPPED</text>']
+    for i, name in enumerate(CHIPS):
+        x = CHIP_X + (i % 2) * (CHIP_W + GAP)
+        y = CHIP_Y + (i // 2) * (CHIP_H + GAP)
+        chips.append(
+            f'<g class="chip" style="animation-delay:{0.15 + i * 0.08:.2f}s">'
+            f'<rect x="{x}" y="{y}" width="{CHIP_W}" height="{CHIP_H}" rx="8" fill="{p["tile"]}" stroke="{p["faint"]}"/>'
+            f'<circle cx="{x + 14}" cy="{y + CHIP_H / 2}" r="3" fill="{p["accent"]}"/>'
+            f'<text class="chipt" x="{x + 26}" y="{y + 20}">{name}</text></g>'
         )
     ticks = "\n".join(
         f'<text class="tick{" t0" if i == 0 else ""}" x="{X0 + 24}" y="276" style="animation-delay:{i * STEP}s">{t}</text>'
@@ -102,7 +104,7 @@ def body(p: dict) -> str:
 <text class="stack" x="{X0}" y="240">{STACK}</text>
 <text class="prompt" x="{X0}" y="276">▸</text>
 {ticks}
-{"".join(tiles)}
+{"".join(chips)}
 <line x1="{X0}" y1="310" x2="{X1}" y2="310" stroke="{p['faint']}" stroke-width="1.5"/>
 {"".join(nodes)}{pulses}{"".join(labels)}"""
 
@@ -112,8 +114,8 @@ def svg(theme: str, faces: str) -> str:
     n = len(TICKER)
     on = 100 / n  # share of the cycle each ticker line is visible
     return f"""<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {W} {H}" width="{W}" height="{H}" role="img" aria-labelledby="t d">
-<title id="t">Aryan Teng: full-stack product engineer</title>
-<desc id="d">I build AI products end to end, from the UX to the on-prem deploy. Led the React 19 rebuild of UVIP with 300+ typed APIs; cut deploy time 90% for 50 computer-vision apps; Seek search used at 33 Indian airports; a ClickHouse pipeline at 20M+ events a day.</desc>
+<title id="t">Aryan Teng: full-stack product engineer, ex-founding engineer</title>
+<desc id="d">I build products from zero to production, from Figma to the customer site. Built and shipped at Awiros: the UVIP platform rebuild, CV app delivery, Developer Mode, Seek vector search, enterprise SSO, the Delhi IGI airport operations suite, two mobile apps and a ClickHouse event pipeline. Previously founding engineer at Enveave.</desc>
 <defs>
 <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse"><circle cx="12" cy="12" r="1" fill="{p['grid']}"/></pattern>
 <linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="#fff" stop-opacity=".05"/><stop offset="1" stop-color="#fff" stop-opacity=".9"/></linearGradient>
@@ -130,9 +132,9 @@ text{{font-family:S,system-ui,sans-serif;fill:{p['ink']}}}
 .prompt{{font-size:17px;fill:{p['accent']}}}
 .tick{{font-size:18px;font-weight:500;opacity:0;animation:tick {n * STEP}s linear infinite backwards}}
 .t0{{opacity:1}}
-.fig{{font-size:30px;font-weight:700;letter-spacing:-.5px}}
+.chipt{{font-size:13.5px;font-weight:500}}
 .lab{{font-size:11.5px;fill:{p['muted']}}}
-.tile{{animation:rise .7s cubic-bezier(.2,.8,.2,1) both}}
+.chip{{animation:rise .6s cubic-bezier(.2,.8,.2,1) both}}
 .pulse{{animation:flow 4s linear infinite}}
 @keyframes tick{{0%{{opacity:0;transform:translateY(8px)}}{on * .1:.2f}%,{on * .9:.2f}%{{opacity:1;transform:none}}{on:.2f}%,100%{{opacity:0;transform:translateY(-8px)}}}}
 @keyframes rise{{from{{opacity:0;transform:translateY(10px)}}to{{opacity:1;transform:none}}}}
@@ -145,8 +147,8 @@ text{{font-family:S,system-ui,sans-serif;fill:{p['ink']}}}
 
 
 def main() -> None:
-    display_text = NAME + "." + "".join(ROLE) + "".join(TICKER) + "".join(f for f, _ in TILES) + "0123456789+−%"
-    mono_text = CAPTION_L + CAPTION_R + STACK + "".join(l for _, l in TILES) + "".join(STAGES) + "▸"
+    display_text = NAME + "." + "".join(ROLE) + "".join(TICKER) + "".join(CHIPS)
+    mono_text = CAPTION_L + CAPTION_R + "BUILT AND SHIPPED" + STACK + "".join(STAGES) + "▸"
     faces = "".join(
         [font_face(DISPLAY, "S", w, display_text) for w in (500, 700)]
         + [font_face(MONO, "J", 400, mono_text)]
