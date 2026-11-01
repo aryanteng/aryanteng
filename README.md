@@ -94,7 +94,7 @@ Co-led the climate-tech startup's 0-to-1 MVP with the founders: architected 6 co
 <sub>AWS costs −33% · delivery time −50% with CI/CD</sub>
 </td>
 <td width="50%" valign="top">
-<b>Tortoise</b>&nbsp;&nbsp;<code>intern · 2024</code><br>
+<b>Tortoise</b>&nbsp;&nbsp;<code>2024</code><br>
 Lessor and seller dashboards for an electronics rental platform with 10,000+ customers.<br>
 <sub>Admin load time −40% with RTK Query caching</sub>
 </td>
